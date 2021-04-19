@@ -110,12 +110,7 @@ class favoriteActivity : AppCompatActivity() {
         mfavoriteArraylist = ArrayList<Question>()
         mAdapter.notifyDataSetChanged()
 
-        val user = FirebaseAuth.getInstance().currentUser
-        mfavoriteRef=mDatabaseReference.child(forvarite).child(user!!.uid)
-        mAdapter.mfavoriteArraylist
-        mAdapter.setFavoriteArrayList(mfavoriteArraylist)
-        favoritelistView.adapter = mAdapter
-        mfavoriteRef!!.addChildEventListener(mEventListener)
+
 
         favoritelistView.setOnItemClickListener{parent, view, position, id ->
             // Questionのインスタンスを渡して質問詳細画面を起動する
@@ -130,6 +125,18 @@ class favoriteActivity : AppCompatActivity() {
 
 
 
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val user = FirebaseAuth.getInstance().currentUser
+       mfavoriteArraylist.clear()
+        mAdapter.setFavoriteArrayList(mfavoriteArraylist)
+        mfavoriteRef=mDatabaseReference.child(forvarite).child(user!!.uid)
+        favoritelistView.adapter = mAdapter
+        mfavoriteRef!!.addChildEventListener(mEventListener)
 
 
     }
