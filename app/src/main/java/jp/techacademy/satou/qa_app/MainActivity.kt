@@ -6,6 +6,7 @@ import android.util.Base64
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -136,6 +137,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+
         nav_view.setNavigationItemSelectedListener(this)
 
         // Firebase
@@ -156,6 +158,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     override fun onResume() {
         super.onResume()
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            nav_view.menu.getItem(4).setVisible(false)
+        }else{
+            nav_view.menu.getItem(4).setVisible(true)
+        }
+
         // 1:趣味を既定の選択とする
         if(mGenre == 0) {
             onNavigationItemSelected(nav_view.menu.getItem(0))
@@ -201,6 +210,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (user == null) {
                 // ログインしていなければログイン画面に遷移させる
+
                 val intent = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
             }else{
