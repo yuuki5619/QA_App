@@ -1,5 +1,6 @@
 package jp.techacademy.satou.qa_app
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
@@ -7,6 +8,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_favorite.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class favoriteActivity : AppCompatActivity() {
     private lateinit var mfavoriteArraylist: ArrayList<Question>
@@ -114,6 +116,15 @@ class favoriteActivity : AppCompatActivity() {
         mAdapter.setFavoriteArrayList(mfavoriteArraylist)
         favoritelistView.adapter = mAdapter
         mfavoriteRef!!.addChildEventListener(mEventListener)
+
+        favoritelistView.setOnItemClickListener{parent, view, position, id ->
+            // Questionのインスタンスを渡して質問詳細画面を起動する
+
+            val intent = Intent(applicationContext, QuestionDetailActivity::class.java)
+            intent.putExtra("question", mfavoriteArraylist[position])
+            startActivity(intent)
+        }
+
 
 
 
