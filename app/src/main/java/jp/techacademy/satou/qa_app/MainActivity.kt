@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             val question = Question(title, body, name, uid, dataSnapshot.key ?: "",
-                mGenre, bytes, answerArrayList)
+                mGenre, bytes, answerArrayList,forvarite)
             mQuestionArrayList.add(question)
             mAdapter.notifyDataSetChanged()
         }
@@ -195,6 +195,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_compter) {
             toolbar.title = getString(R.string.menu_compter_label)
             mGenre = 4
+        } else if (id == R.id.nav_favorite) {
+            val user = FirebaseAuth.getInstance().currentUser
+
+            if (user == null) {
+                // ログインしていなければログイン画面に遷移させる
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                startActivity(intent)
+            }else{
+                val intent = Intent(applicationContext, favoriteActivity::class.java)
+                startActivity(intent)
+
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

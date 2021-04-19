@@ -69,6 +69,8 @@ class QuestionDetailListAdapter(context: Context, private val mQustion: Question
                 val imageView = convertView.findViewById<View>(R.id.imageView) as ImageView
                 imageView.setImageBitmap(image)
             }
+
+
         } else {
             if (convertView == null) {
                 convertView = mLayoutInflater!!.inflate(R.layout.list_answer, parent, false)!!
@@ -83,6 +85,8 @@ class QuestionDetailListAdapter(context: Context, private val mQustion: Question
 
             val nameTextView = convertView.nameTextView as TextView
             nameTextView.text = name
+
+
         }
 
         return convertView
