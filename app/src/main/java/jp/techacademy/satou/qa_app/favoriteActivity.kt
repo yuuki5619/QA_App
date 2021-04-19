@@ -27,7 +27,7 @@ class favoriteActivity : AppCompatActivity() {
 
 
             val mfavoriteall = mDatabaseReference.child(ContentsPATH).child(genre).child(questionfavorite)
-            mfavoriteall.addListenerForSingleValueEvent(aaa)
+            mfavoriteall.addListenerForSingleValueEvent(favoliteselect)
 
 
 
@@ -49,7 +49,7 @@ class favoriteActivity : AppCompatActivity() {
 
         }
     }
-    private val aaa = object : ValueEventListener {
+    private val favoliteselect  = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
                     val map = snapshot.value as Map<String, String>
                     val title = map["title"] ?: ""

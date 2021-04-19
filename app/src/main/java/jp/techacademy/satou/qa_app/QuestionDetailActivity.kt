@@ -88,6 +88,7 @@ class QuestionDetailActivity : AppCompatActivity() {
                 // ログインしていなければログイン画面に遷移させる
                 val intent = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
+
             } else {
                 // Questionを渡して回答作成画面を起動する
                 // Questionを渡して回答作成画面を起動する
@@ -138,33 +139,34 @@ class QuestionDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val user = FirebaseAuth.getInstance().currentUser
-        val dataBaseReference = FirebaseDatabase.getInstance().reference
-        val favoriteid = mQuestion.questionUid
-        mfavoriteRef = dataBaseReference.child(forvarite).child(user!!.uid).child(favoriteid)
+        if (user != null){
+            favoritefab.visibility= View.VISIBLE
+            val dataBaseReference = FirebaseDatabase.getInstance().reference
+            val favoriteid = mQuestion.questionUid
+            mfavoriteRef = dataBaseReference.child(forvarite).child(user!!.uid).child(favoriteid)
 
 
-        mfavoriteRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val data = snapshot.value as Map<*, *>?
-                val favoritestate = data
-                if (favoritestate == null){
-                    favoritefab.setImageResource(R.drawable.ic_star_border)
-                    cuurentstate = 0
+            mfavoriteRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val data = snapshot.value as Map<*, *>?
+                    val favoritestate = data
+                    if (favoritestate == null){
+                        favoritefab.setImageResource(R.drawable.ic_star_border)
+                        cuurentstate = 0
 
-                }else{
-                    favoritefab.setImageResource(R.drawable.ic_star)
-                    cuurentstate = 1
+                    }else{
+                        favoritefab.setImageResource(R.drawable.ic_star)
+                        cuurentstate = 1
+                    }
+
+
                 }
-                //if ( mQuestion.genre.toString() == favoritestate){
 
-                //}else{
+                override fun onCancelled(firebaseError: DatabaseError) {}
+            })
 
-                //}
 
-            }
-
-            override fun onCancelled(firebaseError: DatabaseError) {}
-        })
+        }
 
 
 
